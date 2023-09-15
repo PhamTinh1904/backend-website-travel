@@ -1,0 +1,61 @@
+"use strict";
+const mongoose = require("mongoose");
+const { Schema, model } = require("mongoose"); // Erase if already required
+
+const DOCUMENT_NAME = "Tour";
+
+// Declare the Schema of the Mongo model
+var tourSchema = new Schema(
+  {
+    title: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    city: {
+      type: String,
+      required: true,
+    },
+    address: {
+      type: String,
+      required: true,
+    },
+    distance: {
+      type: Number,
+      required: true,
+    },
+    photo: {
+      type: String,
+      required: true,
+    },
+    desc: {
+      type: String,
+      required: true,
+    },
+    price: {
+      type: Number,
+      required: true,
+    },
+    maxGroupSize: {
+      type: Number,
+      required: true,
+    },
+    reviews: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: "Review",
+      },
+    ],
+    featured: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  {
+    collation: { locale: "en_US" },
+    timestamps: true,
+  }
+);
+
+//Export the model
+module.exports = model(DOCUMENT_NAME, tourSchema);
