@@ -58,6 +58,8 @@ class AuthController {
       { expiresIn: "15d" }
     );
 
+    await console.log('token', token)
+
     res.cookie('accessToken', token, {
       httpOnly: true,
       expires: token.expiresIn
