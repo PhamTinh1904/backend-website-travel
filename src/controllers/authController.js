@@ -27,7 +27,7 @@ class AuthController {
   static Login = async (req, res, next) => {
     try {
       let email = req.body.email;
-
+      console.log(email);
     const user = await userModel.findOne({ email });
 
     if (!user) {
