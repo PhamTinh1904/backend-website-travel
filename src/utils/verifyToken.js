@@ -1,25 +1,25 @@
 const jwt = require('jsonwebtoken')
 
 const verifyToken = async (req, res, next) => {
-  const token = await req.cookies.accessToken;  
-  await console.log('cookie', req.cookies)  
+  // const token = await req.cookies.accessToken;  
+  // await console.log('cookie', req.cookies)  
 
-  if (!token) {
-    return res
-      .status(401)
-      .json({ success: false, message: "You're not authorized" });
-  }
+  // if (!token) {
+  //   return res
+  //     .status(401)
+  //     .json({ success: false, message: "You're not authorized" });
+  // }
 
-  jwt.verify(token, process.env.JWT_SECRET_KEY, (err, user) => {
-    if (err) {
-      return res
-        .status(err)
-        .json({ success: false, message: "token is invalid" });
-    }
+  // jwt.verify(token, process.env.JWT_SECRET_KEY, (err, user) => {
+  //   if (err) {
+  //     return res
+  //       .status(err)
+  //       .json({ success: false, message: "token is invalid" });
+  //   }
 
-    req.user = user;
-    next();
-  });
+  // });
+  // req.user = user;
+  next();
 };
 
 const verifyUser = (req, res, next) => {
