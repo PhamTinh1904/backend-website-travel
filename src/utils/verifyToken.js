@@ -23,7 +23,7 @@ const verifyToken = async (req, res, next) => {
 };
 
 const verifyUser = (req, res, next) => {
-  verifyToken(req, res, next, () => {
+  
     if (req.user.id === req.params.id || req.user.role === "admin") {
       next();
     } else {
@@ -31,7 +31,6 @@ const verifyUser = (req, res, next) => {
         .status(401)
         .json({ success: false, message: "You're not user" });
     }
-  });
 };
 
 const verifyAdmin = (req, res, next) => {
