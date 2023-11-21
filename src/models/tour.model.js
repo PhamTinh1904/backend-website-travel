@@ -12,12 +12,20 @@ var tourSchema = new Schema(
       required: true,
       unique: true,
     },
-    city: {
+    startGate: {
       type: String,
       required: true,
+    },  
+    day: {
+      type: Number,
+      required: true,
     },
-    address: {
-      type: String,
+    night: {
+      type: Number,
+      required: true,
+    },
+    departureDay: {
+      type: Date,
       required: true,
     },
     distance: {
@@ -32,6 +40,16 @@ var tourSchema = new Schema(
       type: String,
       required: true,
     },
+    lichtrinh: [
+      {
+        day: {
+          type: Number,
+        },
+        chitiet: {
+          type: String,
+        }
+      }
+    ],
     price: {
       type: Number,
       required: true,

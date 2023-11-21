@@ -18,11 +18,19 @@ var bookingSchema = new Schema(
       type: String,
       required: true,
     },
+    tourId: {
+      type: String,
+      required: true,
+    },
     fullName: {
       type: String,
       required: true,
     },
     guestSize: {
+      type: Number,
+      required: true,
+    },
+    guestChild: {
       type: Number,
       required: true,
     },
@@ -34,9 +42,17 @@ var bookingSchema = new Schema(
       type: Date,
       required: true,
     },
+    pay1: {
+      type: Boolean,
+      default: false,
+    },
+    pay2: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
-    collation: { locale: "en_US" },
+    collation: { locale: "vi" },
     timestamps: true,
   }
 );

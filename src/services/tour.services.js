@@ -56,9 +56,36 @@ class TourServices {
     }
   };
 
+  static getTripsByUser = async (userEmail) => {
+    try {
+      let trips = await bookingModel.find({ userEmail });
+
+      if (!trips) {
+        return {
+          success: false,
+          message: "Not found",
+        };
+      }
+      return {
+        success: true,
+        count: trips.length,
+        message: "Successful",
+        data: trips,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        message: "Error: " + error.message,
+      };
+    }
+  };
+
   static getFeaturedTours = async () => {
     try {
-      let tours = await tourModel.find({ featured: true }).populate("reviews").limit(8);
+      let tours = await tourModel
+        .find({ featured: true })
+        .populate("reviews")
+        .limit(8);
 
       if (!tours) {
         return {
@@ -150,11 +177,13 @@ class TourServices {
   static getTourBySearch = async (city, distance, maxGroupSize) => {
     try {
       const cityRegex = new RegExp(city, "i");
-      const tours = await tourModel.find({
-        city: cityRegex,
-        distance: { $gte: distance },
-        maxGroupSize: { $gte: maxGroupSize },
-      }).populate("reviews");
+      const tours = await tourModel
+        .find({
+          city: cityRegex,
+          distance: { $gte: distance },
+          maxGroupSize: { $gte: maxGroupSize },
+        })
+        .populate("reviews");
 
       if (tours.length === 0) {
         return {
