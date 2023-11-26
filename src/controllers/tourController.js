@@ -34,27 +34,35 @@ class TourController {
     }
   };
 
+  getToursByCategory = async (req, res) => {
+    let page = req.query.page;
+    let category = req.params.category;
+    let result = await TourServices.getToursByCategory(category, page);
+    try {
+      res.status(200).json({ result });
+    } catch (error) {}
+  };
+
   getFeaturedTours = async (req, res) => {
     try {
-      let result = await TourServices.getFeaturedTours()
+      let result = await TourServices.getFeaturedTours();
 
       if (result.success) {
-        res.status(200).json({ result});
+        res.status(200).json({ result });
       }
 
-      res.status(404).json({ result});
+      res.status(404).json({ result });
     } catch (error) {
       res.status(500).json({
         success: false,
         message: error.message,
-      })
+      });
     }
-  }
+  };
 
   getToursByUser = async (req, res) => {
-    
     try {
-      let userEmail = req.header('userEmail')
+      let userEmail = req.header("userEmail");
       console.log(userEmail);
       let result = await TourServices.getTripsByUser(userEmail);
       res.status(200).json({ result });
@@ -64,7 +72,7 @@ class TourController {
         message: error.message,
       });
     }
-  }
+  };
 
   update = async (req, res) => {
     try {
@@ -125,8 +133,8 @@ class TourController {
 
   getToursCount = async (req, res) => {
     try {
-      const result = await TourServices.getToursCount()
-      if(!result.success) {
+      const result = await TourServices.getToursCount();
+      if (!result.success) {
         return res.status(404).json({ result });
       }
 
@@ -135,9 +143,9 @@ class TourController {
       res.status(500).json({
         success: false,
         message: "Internal server error",
-      })
+      });
     }
-  }
+  };
 }
 
 module.exports = new TourController();

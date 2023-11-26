@@ -15,7 +15,7 @@ var tourSchema = new Schema(
     startGate: {
       type: String,
       required: true,
-    },  
+    },
     day: {
       type: Number,
       required: true,
@@ -45,11 +45,28 @@ var tourSchema = new Schema(
         day: {
           type: Number,
         },
-        chitiet: {
+        place: {
           type: String,
-        }
-      }
+        },
+        detail: {
+          type: String,
+        },
+      },
     ],
+    location: {
+      type: String,
+      required: true,
+    },
+    category: {
+      url: {
+        type: String,
+        required: true,
+      },
+      name: {
+        type: String,
+        required: true,
+      }
+    },
     price: {
       type: Number,
       required: true,

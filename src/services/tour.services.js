@@ -56,10 +56,41 @@ class TourServices {
     }
   };
 
+  static getToursByCategory = async (category, page) => {
+    try {
+      let tours = await tourModel
+        .find({ "category.url": category })
+        .populate("reviews")
+        .skip(page * 8)
+        .limit(8);
+
+      if (!tours) {
+        return {
+          success: false,
+          message: "Not found",
+        };
+      }
+      return {
+        success: true,
+        count: tours.length,
+        message: "Successful",
+        data: tours,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        message: "Error: " + error.message,
+      };
+    }
+  };
+
   static getTripsByUser = async (userEmail) => {
     try {
-      let trips = await bookingModel.find({ userEmail });
-
+      let trips;
+      userEmail === "all"
+        ? (trips = await bookingModel.find({}))
+        : (trips = await bookingModel.find({ userEmail }));
+      await console.log(trips);
       if (!trips) {
         return {
           success: false,
