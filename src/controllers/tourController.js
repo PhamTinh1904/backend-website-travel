@@ -106,15 +106,36 @@ class TourController {
     }
   };
 
+  sendEmail = async (req, res) => {
+    let email = req.body.email;
+    try {
+      let result = await TourServices.sendEmail(email);
+
+      if (!result.success) {
+        return res.status(404).json({ result });
+      }
+
+      return res.status(200).json({ result });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: "Internal server error",
+      });
+    }
+  };
+
   toursBySearch = async (req, res) => {
     try {
-      let city = req.query.city;
-      let distance = parseInt(req.query.distance);
+      let city = req.query.location;
+      let day = parseInt(req.query.day);
+      let night = parseInt(req.query.night);
+
       let maxGroupSize = parseInt(req.query.maxGroupSize);
 
       let result = await TourServices.getTourBySearch(
         city,
-        distance,
+        day,
+        night,
         maxGroupSize
       );
 

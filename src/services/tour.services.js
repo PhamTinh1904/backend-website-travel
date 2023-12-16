@@ -205,16 +205,19 @@ class TourServices {
     return { success: false, message: "Tour not found" };
   };
 
-  static getTourBySearch = async (city, distance, maxGroupSize) => {
+  static getTourBySearch = async (location, day, night, maxGroupSize) => {
     try {
-      const cityRegex = new RegExp(city, "i");
+      // const cityRegex = new RegExp(escapeRegExp(location), "i");
       const tours = await tourModel
         .find({
-          city: cityRegex,
-          distance: { $gte: distance },
+          location: { $regex: new RegExp(location, "i") },
+          day: day,
+          night: night,
           maxGroupSize: { $gte: maxGroupSize },
         })
         .populate("reviews");
+
+      await console.log("1");
 
       if (tours.length === 0) {
         return {
@@ -229,8 +232,39 @@ class TourServices {
         };
       }
     } catch (error) {
-      return { success: false, message: "Not Found" };
+      return { success: false, message: error.message };
     }
+  };
+
+  static SendEmail = async (email) => {
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        // TODO: replace `user` and `pass` values from <https://forwardemail.net>
+        user: "quockhanh51201@gmail.com",
+        pass: "vxtc mgwx syuz iogq",
+      },
+    });
+
+    await transporter.sendMail({
+      from: '"Fred Foo 👻" <foo@example.com>', // sender address
+      to: `${email}`, // list of receivers
+      subject: "Hello ✔", // Subject line
+      text: "Hello world?", // plain text body
+      html: "<b>Hello world?</b>", // html body
+    }),
+      (err) => {
+        if (err) {
+          return {
+            success: false,
+            message: "Gửi mail thất bại",
+          };
+        }
+        return {
+          success: true,
+          message: "Đã gửi mail thành công",
+        };
+      };
   };
 
   static getToursCount = async () => {

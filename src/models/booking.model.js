@@ -40,7 +40,6 @@ var bookingSchema = new Schema(
     },
     bookAt: {
       type: Date,
-      required: true,
     },
     pay1: {
       type: Boolean,
