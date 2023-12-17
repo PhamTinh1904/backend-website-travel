@@ -33,8 +33,8 @@ class TourServices {
       let tours = await tourModel
         .find({})
         .populate("reviews")
-        .skip(page * 8)
-        .limit(8);
+        .skip(page * 6)
+        .limit(6);
 
       if (!tours) {
         return {
@@ -236,37 +236,7 @@ class TourServices {
     }
   };
 
-  static SendEmail = async (email) => {
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        // TODO: replace `user` and `pass` values from <https://forwardemail.net>
-        user: "quockhanh51201@gmail.com",
-        pass: "vxtc mgwx syuz iogq",
-      },
-    });
-
-    await transporter.sendMail({
-      from: '"Fred Foo 👻" <foo@example.com>', // sender address
-      to: `${email}`, // list of receivers
-      subject: "Hello ✔", // Subject line
-      text: "Hello world?", // plain text body
-      html: "<b>Hello world?</b>", // html body
-    }),
-      (err) => {
-        if (err) {
-          return {
-            success: false,
-            message: "Gửi mail thất bại",
-          };
-        }
-        return {
-          success: true,
-          message: "Đã gửi mail thành công",
-        };
-      };
-  };
-
+ 
   static getToursCount = async () => {
     try {
       const tourCount = await tourModel.estimatedDocumentCount();
@@ -282,6 +252,19 @@ class TourServices {
     } catch (error) {
       return { success: false, message: error.message };
     }
+  };
+
+  static deleteTrip = async (tourId) => {
+    let deleteTrip = await bookingModel.findOneAndDelete({tourId});
+
+    if (deleteTrip) {
+      return {
+        success: true,
+        message: "Trip deleted successfully",
+      };
+    }
+
+    return { success: false, message: "Trip not found" };
   };
 
   static bookingTour = async (data) => {
